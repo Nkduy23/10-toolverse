@@ -1,0 +1,31 @@
+{
+  "name": "10-toolverse",
+  "version": "1.0.0",
+  "description": "> **\"Mỗi tool nhỏ — một bài học lớn.\"**   > Một website tập hợp các utility web hữu ích, được xây từng bước từ zero đến production.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "next": "^16.2.6",
+    "postcss": "^8.5.14",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "25.7.0",
+    "@types/react": "19.2.14",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,0 +1,180 @@
+export type ToolStatus = "done" | "building" | "planned";
+export type ToolCategory = "security" | "utility" | "design" | "text" | "dev";
+
+export interface Tool {
+  id: string;
+  name: string;
+  desc: string;
+  icon: string;
+  iconBg: string;
+  category: ToolCategory;
+  status: ToolStatus;
+  statusLabel: string;
+  tags: string[];
+  href: string;
+  keywords: string[];
+}
+
+export const TOOLS: Tool[] = [
+  {
+    id: "password-generator",
+    name: "Password Generator",
+    desc: "Tạo mật khẩu mạnh, ngẫu nhiên với Crypto API. Chọn độ dài, ký tự đặc biệt, uppercase.",
+    icon: "🔑",
+    iconBg: "linear-gradient(135deg,#f97316,#ef4444)",
+    category: "security",
+    status: "building",
+    statusLabel: "🔨 Building",
+    tags: ["Crypto API", "Clipboard"],
+    href: "/tools/password-generator",
+    keywords: [
+      "password",
+      "mật khẩu",
+      "random",
+      "strong",
+      "security",
+      "generator",
+    ],
+  },
+  {
+    id: "qr-generator",
+    name: "QR Code Generator",
+    desc: "Tạo QR code từ URL hoặc text. Download PNG/SVG. Tùy chỉnh màu sắc và kích thước.",
+    icon: "📱",
+    iconBg: "linear-gradient(135deg,#0ea5e9,#6366f1)",
+    category: "utility",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["Canvas API", "qrcode.js"],
+    href: "/tools/qr-generator",
+    keywords: ["qr", "mã qr", "qrcode", "barcode", "url", "link"],
+  },
+  {
+    id: "color-palette",
+    name: "Color Palette Generator",
+    desc: "Tạo bảng màu ngẫu nhiên đẹp. Lock màu yêu thích, copy HEX/RGB, export CSS variables.",
+    icon: "🎨",
+    iconBg: "linear-gradient(135deg,#a855f7,#ec4899)",
+    category: "design",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["CSS Variables", "Clipboard"],
+    href: "/tools/color-palette",
+    keywords: ["color", "màu", "palette", "hex", "rgb", "design", "scheme"],
+  },
+  {
+    id: "text-formatter",
+    name: "Text Formatter",
+    desc: "Chuyển đổi text: UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case.",
+    icon: "📝",
+    iconBg: "linear-gradient(135deg,#22c55e,#0ea5e9)",
+    category: "text",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["String API", "Textarea"],
+    href: "/tools/text-formatter",
+    keywords: [
+      "text",
+      "format",
+      "case",
+      "uppercase",
+      "lowercase",
+      "camelcase",
+      "snake",
+    ],
+  },
+  {
+    id: "image-compressor",
+    name: "Image Compressor",
+    desc: "Nén ảnh trực tiếp trên browser. Drag & drop, hỗ trợ JPG/PNG/WebP, xem trước kết quả.",
+    icon: "🗜️",
+    iconBg: "linear-gradient(135deg,#f59e0b,#f97316)",
+    category: "design",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["Canvas API", "File API", "Blob"],
+    href: "/tools/image-compressor",
+    keywords: ["image", "ảnh", "compress", "nén", "jpg", "png", "webp"],
+  },
+  {
+    id: "json-viewer",
+    name: "JSON Viewer",
+    desc: "Format và highlight JSON đẹp. Tree view, validate, fold/unfold nested objects.",
+    icon: "{ }",
+    iconBg: "linear-gradient(135deg,#0ea5e9,#22c55e)",
+    category: "dev",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["highlight.js", "Dev Tool"],
+    href: "/tools/json-viewer",
+    keywords: ["json", "format", "viewer", "highlight", "dev", "parse"],
+  },
+  {
+    id: "base64-converter",
+    name: "Base64 Converter",
+    desc: "Encode/decode Base64 cho text và ảnh. Hữu ích cho dev khi debug API, xử lý image data.",
+    icon: "🔄",
+    iconBg: "linear-gradient(135deg,#6366f1,#a855f7)",
+    category: "dev",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["btoa/atob", "FileReader"],
+    href: "/tools/base64",
+    keywords: ["base64", "encode", "decode", "converter", "dev", "api"],
+  },
+  {
+    id: "markdown-preview",
+    name: "Markdown Preview",
+    desc: "Viết Markdown, xem preview realtime bên cạnh. Export sang HTML. Syntax highlighting.",
+    icon: "⬇️",
+    iconBg: "linear-gradient(135deg,#475569,#1e293b)",
+    category: "text",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["marked.js", "Editor"],
+    href: "/tools/markdown-preview",
+    keywords: ["markdown", "preview", "md", "editor", "html", "text"],
+  },
+  {
+    id: "regex-tester",
+    name: "Regex Tester",
+    desc: "Test Regular Expressions với realtime highlight. Xem tất cả matches, groups rõ ràng.",
+    icon: "/^$/",
+    iconBg: "linear-gradient(135deg,#ef4444,#f97316)",
+    category: "text",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["RegExp", "Dev Tool"],
+    href: "/tools/regex-tester",
+    keywords: [
+      "regex",
+      "regexp",
+      "regular expression",
+      "pattern",
+      "test",
+      "match",
+    ],
+  },
+  {
+    id: "hashtag-generator",
+    name: "Hashtag Generator",
+    desc: "Tạo hashtag cho Instagram, TikTok, Facebook. Gợi ý theo niche, copy 1 click.",
+    icon: "#️⃣",
+    iconBg: "linear-gradient(135deg,#ec4899,#f97316)",
+    category: "utility",
+    status: "planned",
+    statusLabel: "📋 Planned",
+    tags: ["Creator", "Social"],
+    href: "/tools/hashtag-generator",
+    keywords: ["hashtag", "instagram", "tiktok", "social", "creator", "tag"],
+  },
+];
+
+export const CATEGORIES = [
+  { id: "all", label: "⚡ Tất cả" },
+  { id: "security", label: "🔒 Security" },
+  { id: "utility", label: "🛠️ Utility" },
+  { id: "design", label: "🎨 Design" },
+  { id: "text", label: "📝 Text" },
+  { id: "dev", label: "💻 Dev" },
+] as const;
