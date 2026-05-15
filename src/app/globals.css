@@ -327,6 +327,7 @@ ol[role="list"] {
   position: relative;
   overflow: hidden;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 /* Mesh background */

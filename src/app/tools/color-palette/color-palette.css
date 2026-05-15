@@ -1,0 +1,384 @@
+/* =============================================
+   Color Palette Generator — Tool-specific styles
+   Giữ riêng vì: custom slider thumb, :has() selector,
+   swatch animations, history slideIn keyframe
+   ============================================= */
+
+/* ---- CSS vars riêng cho tool — mapped sang design system tokens ---- */
+.cp-root {
+  --cp-bg:           var(--color-bg,            #0d1117);
+  --cp-card:         var(--color-surface,        #161b22);
+  --cp-card-hover:   var(--color-surface-raised, #1c2330);
+  --cp-input:        var(--color-bg,             #0d1117);
+  --cp-border:       var(--color-border,         #30363d);
+  --cp-border-focus: var(--color-border-focus,   #58a6ff);
+  --cp-accent:       var(--color-accent,         #f7a130);
+  --cp-accent-glow:  var(--color-accent-subtle,  rgba(247,161,48,0.18));
+  --cp-text:         var(--color-text,           #e6edf3);
+  --cp-text-sub:     var(--color-text-secondary, #8b949e);
+  --cp-text-mono:    var(--color-text-code,      #2492f1);
+  --cp-radius:       var(--radius-lg,            12px);
+  --cp-radius-sm:    var(--radius-md,            8px);
+  --cp-transition:   var(--transition-fast,      0.2s ease);
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ---- Layout ---- */
+.cp-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+}
+
+/* ---- Panel ---- */
+.cp-panel {
+  background: var(--cp-card);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---- Breadcrumb ---- */
+.cp-breadcrumb {
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--cp-text-sub);
+  border-bottom: 1px solid var(--cp-border);
+  margin: 0 auto;
+  width: 100%;
+}
+.cp-breadcrumb a { color: #58a6ff; text-decoration: none; }
+.cp-breadcrumb a:hover { text-decoration: underline; }
+
+/* ---- Slider — must be custom, Tailwind can't style thumb ---- */
+.cp-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--cp-border);
+  outline: none;
+  cursor: pointer;
+  transition: background var(--cp-transition);
+}
+.cp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cp-accent);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(247,161,48,0.5);
+  transition: transform var(--cp-transition), box-shadow var(--cp-transition);
+}
+.cp-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 14px rgba(247,161,48,0.7);
+}
+.cp-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cp-accent);
+  cursor: pointer;
+  border: none;
+}
+
+/* ---- Harmony mode card — uses :has() which Tailwind can't express ---- */
+.cp-mode-card {
+  position: relative;
+  cursor: pointer;
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius-sm);
+  padding: 0.55rem 0.7rem;
+  transition: border-color var(--cp-transition), background var(--cp-transition);
+  display: block;
+}
+.cp-mode-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.cp-mode-card:has(input:checked) {
+  border-color: var(--cp-accent);
+  background: var(--cp-accent-glow);
+}
+.cp-mode-card:hover { border-color: #58a6ff; }
+
+/* ---- Color picker wrapper ---- */
+.cp-color-picker-wrap {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--cp-radius-sm);
+  border: 2px solid var(--cp-border);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color var(--cp-transition);
+  flex-shrink: 0;
+}
+.cp-color-picker-wrap:hover { border-color: var(--cp-accent); }
+.cp-color-picker-wrap input[type="color"] {
+  position: absolute;
+  inset: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+}
+
+/* ---- Hex input ---- */
+.cp-hex-input {
+  flex: 1;
+  background: var(--cp-input);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius-sm);
+  padding: 0.55rem 0.9rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--cp-text-mono);
+  outline: none;
+  transition: border-color var(--cp-transition);
+  width: 100%;
+}
+.cp-hex-input:focus { border-color: var(--cp-border-focus); }
+.cp-hex-input.invalid { border-color: #f85149; color: #f85149; }
+
+/* ---- Swatch grid ---- */
+.cp-swatch-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* ---- Single swatch ---- */
+@keyframes cp-swatchIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.cp-swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius-sm);
+  overflow: hidden;
+  animation: cp-swatchIn 0.25s ease both;
+  cursor: pointer;
+  transition: border-color var(--cp-transition);
+}
+.cp-swatch-row:hover { border-color: var(--cp-border-focus); }
+
+.cp-swatch-color {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  transition: width var(--cp-transition);
+}
+.cp-swatch-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.5rem 0;
+  min-width: 0;
+}
+.cp-swatch-hex {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cp-text);
+}
+.cp-swatch-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--cp-text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cp-swatch-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0.6rem 0.5rem 0;
+}
+.cp-swatch-btn {
+  background: var(--cp-input);
+  border: 1px solid var(--cp-border);
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--cp-text-sub);
+  cursor: pointer;
+  transition: border-color var(--cp-transition), color var(--cp-transition);
+  white-space: nowrap;
+}
+.cp-swatch-btn:hover { border-color: var(--cp-border-focus); color: var(--cp-text); }
+.cp-swatch-btn.copied { border-color: #3fb950; color: #3fb950; }
+
+/* ---- Export bar ---- */
+.cp-export-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.cp-export-btn {
+  background: var(--cp-input);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius-sm);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cp-text-sub);
+  cursor: pointer;
+  transition: border-color var(--cp-transition), color var(--cp-transition);
+}
+.cp-export-btn:hover { border-color: var(--cp-border-focus); color: var(--cp-text); }
+.cp-export-btn.active { border-color: var(--cp-accent); color: var(--cp-accent); background: var(--cp-accent-glow); }
+
+/* ---- Export code block ---- */
+.cp-export-code {
+  background: var(--cp-input);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius-sm);
+  padding: 0.9rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--cp-text-mono);
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.7;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+/* ---- History item animation ---- */
+@keyframes cp-slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.cp-history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--cp-input);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius-sm);
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  transition: border-color var(--cp-transition);
+  animation: cp-slideIn 0.2s ease;
+}
+.cp-history-item:hover { border-color: var(--cp-border-focus); }
+.cp-history-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.cp-history-label {
+  font-size: 0.78rem;
+  color: var(--cp-text-sub);
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---- Generating pulse ---- */
+@keyframes cp-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.cp-generating .cp-swatch-color { animation: cp-pulse 0.4s ease 2; }
+
+/* ---- Log ---- */
+.cp-log {
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius-sm);
+  overflow: hidden;
+}
+.cp-log summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cp-text-sub);
+  background: var(--cp-input);
+  user-select: none;
+  list-style: none;
+  transition: color var(--cp-transition);
+}
+.cp-log summary:hover { color: var(--cp-text); }
+.cp-log[open] summary { border-bottom: 1px solid var(--cp-border); }
+.cp-log-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--cp-text-sub);
+  line-height: 1.7;
+}
+.cp-log-content strong { color: var(--cp-text); }
+.cp-log-content code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  background: var(--cp-bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  color: var(--cp-text-mono);
+}
+
+/* ---- Toast ---- */
+.cp-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #1c2330;
+  border: 1px solid #3fb950;
+  color: #3fb950;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--cp-radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  z-index: 300;
+}
+.cp-toast.show { opacity: 1; transform: translateY(0); }
+
+/* ---- Responsive ---- */
+@media (max-width: 800px) {
+  .cp-layout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .cp-breadcrumb { padding: 0.6rem 1rem; }
+  .cp-swatch-color { width: 48px; height: 48px; }
+}

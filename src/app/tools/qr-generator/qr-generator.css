@@ -1,0 +1,327 @@
+/* =============================================
+   QR Generator — Tool-specific styles
+   Giữ riêng vì: custom slider thumb, :has() selector,
+   qr canvas animation, history slideIn keyframe
+   ============================================= */
+
+/* ---- CSS vars riêng cho tool — mapped sang design system tokens ---- */
+.qr-root {
+  --qr-bg:           var(--color-bg,            #0d1117);
+  --qr-card:         var(--color-surface,        #161b22);
+  --qr-card-hover:   var(--color-surface-raised, #1c2330);
+  --qr-input:        var(--color-bg,             #0d1117);
+  --qr-border:       var(--color-border,         #30363d);
+  --qr-border-focus: var(--color-border-focus,   #58a6ff);
+  --qr-accent:       var(--color-accent,         #f7a130);
+  --qr-accent-glow:  var(--color-accent-subtle,  rgba(247,161,48,0.18));
+  --qr-text:         var(--color-text,           #e6edf3);
+  --qr-text-sub:     var(--color-text-secondary, #8b949e);
+  --qr-text-mono:    var(--color-text-code,      #2492f1);
+  --qr-danger:       var(--color-danger,         #f85149);
+  --qr-success:      var(--color-success,        #3fb950);
+  --qr-radius:       var(--radius-lg,            12px);
+  --qr-radius-sm:    var(--radius-md,            8px);
+  --qr-transition:   var(--transition-fast,      0.2s ease);
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ---- Layout ---- */
+.qr-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+}
+
+/* ---- Panel ---- */
+.qr-panel {
+  background: var(--qr-card);
+  border: 1px solid var(--qr-border);
+  border-radius: var(--qr-radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---- Breadcrumb ---- */
+.qr-breadcrumb {
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--qr-text-sub);
+  border-bottom: 1px solid var(--qr-border);
+  margin: 0 auto;
+  width: 100%;
+}
+.qr-breadcrumb a { color: #58a6ff; text-decoration: none; }
+.qr-breadcrumb a:hover { text-decoration: underline; }
+
+/* ---- Slider — custom, Tailwind can't style thumb ---- */
+.qr-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--qr-border);
+  outline: none;
+  cursor: pointer;
+  transition: background var(--qr-transition);
+}
+.qr-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--qr-accent);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(247,161,48,0.5);
+  transition: transform var(--qr-transition), box-shadow var(--qr-transition);
+}
+.qr-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 14px rgba(247,161,48,0.7);
+}
+.qr-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--qr-accent);
+  cursor: pointer;
+  border: none;
+}
+
+/* ---- Option card — uses :has() ---- */
+.qr-option-card {
+  position: relative;
+  cursor: pointer;
+  border: 1px solid var(--qr-border);
+  border-radius: var(--qr-radius-sm);
+  padding: 0.7rem 0.8rem;
+  transition: border-color var(--qr-transition), background var(--qr-transition);
+  display: block;
+}
+.qr-option-card input[type="radio"],
+.qr-option-card input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.qr-option-card:has(input:checked) {
+  border-color: var(--qr-accent);
+  background: var(--qr-accent-glow);
+}
+.qr-option-card:hover { border-color: #58a6ff; }
+
+/* ---- QR canvas container ---- */
+.qr-canvas-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--qr-input);
+  border: 1px solid var(--qr-border);
+  border-radius: var(--qr-radius);
+  overflow: hidden;
+  transition: border-color var(--qr-transition);
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.qr-canvas-wrap.has-qr {
+  border-color: var(--qr-accent);
+  box-shadow: 0 0 20px var(--qr-accent-glow);
+}
+
+/* ---- QR placeholder ---- */
+.qr-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--qr-text-sub);
+}
+.qr-placeholder-icon {
+  font-size: 3rem;
+  opacity: 0.3;
+}
+.qr-placeholder-text {
+  font-size: 0.85rem;
+  text-align: center;
+  opacity: 0.6;
+}
+
+/* ---- QR appear animation ---- */
+@keyframes qr-appear {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.qr-canvas {
+  animation: qr-appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  image-rendering: pixelated;
+  border-radius: 6px;
+}
+
+/* ---- Generating pulse ---- */
+@keyframes qr-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.qr-generating {
+  animation: qr-pulse 0.4s ease 2;
+}
+
+/* ---- Textarea input ---- */
+.qr-textarea {
+  width: 100%;
+  background: var(--qr-input);
+  border: 1px solid var(--qr-border);
+  border-radius: var(--qr-radius-sm);
+  padding: 0.75rem 1rem;
+  color: var(--qr-text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 90px;
+  max-height: 200px;
+  outline: none;
+  transition: border-color var(--qr-transition);
+  box-sizing: border-box;
+}
+.qr-textarea::placeholder { color: var(--qr-text-sub); }
+.qr-textarea:focus { border-color: var(--qr-border-focus); }
+
+/* ---- History slideIn ---- */
+@keyframes qr-slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.qr-history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: var(--qr-input);
+  border: 1px solid var(--qr-border);
+  border-radius: var(--qr-radius-sm);
+  padding: 0.5rem 0.8rem;
+  font-size: 0.8rem;
+  color: var(--qr-text-sub);
+  cursor: pointer;
+  transition: border-color var(--qr-transition);
+  animation: qr-slideIn 0.2s ease;
+  min-width: 0;
+}
+.qr-history-item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+.qr-history-item:hover { border-color: var(--qr-border-focus); }
+
+/* ---- Color swatch ---- */
+.qr-color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--qr-border);
+  cursor: pointer;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  overflow: hidden;
+  display: block;
+  transition: border-color var(--qr-transition), transform var(--qr-transition);
+}
+.qr-color-swatch:hover {
+  border-color: var(--qr-accent);
+  transform: scale(1.1);
+}
+
+/* ---- Learning log ---- */
+.qr-log {
+  border: 1px solid var(--qr-border);
+  border-radius: var(--qr-radius-sm);
+  overflow: hidden;
+}
+.qr-log summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--qr-text-sub);
+  background: var(--qr-input);
+  user-select: none;
+  list-style: none;
+  transition: color var(--qr-transition);
+}
+.qr-log summary:hover { color: var(--qr-text); }
+.qr-log[open] summary { border-bottom: 1px solid var(--qr-border); }
+.qr-log-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--qr-text-sub);
+  line-height: 1.7;
+}
+.qr-log-content strong { color: var(--qr-text); }
+.qr-log-content code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  background: var(--qr-bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  color: var(--qr-text-mono);
+}
+
+/* ---- Toast ---- */
+.qr-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #1c2330;
+  border: 1px solid #3fb950;
+  color: #3fb950;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--qr-radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  z-index: 300;
+}
+.qr-toast.show { opacity: 1; transform: translateY(0); }
+
+/* ---- Char count ---- */
+.qr-char-count {
+  font-size: 0.75rem;
+  color: var(--qr-text-sub);
+  text-align: right;
+}
+.qr-char-count.warn { color: var(--qr-danger); }
+
+/* ---- Responsive ---- */
+@media (max-width: 800px) {
+  .qr-layout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .qr-breadcrumb { padding: 0.6rem 1rem; }
+}

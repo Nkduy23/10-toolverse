@@ -457,8 +457,8 @@ export function PasswordGenerator() {
               alignItems: "center",
               justifyContent: "center",
               gap: "0.5rem",
-              background: "var(--pg-accent)",
-              color: "#0d1117",
+              background: "var(--color-brand-dark)",
+              color: "#fff",
               border: "none",
               borderRadius: "var(--pg-radius-sm)",
               padding: "0.85rem 1.5rem",
@@ -503,7 +503,6 @@ export function PasswordGenerator() {
                 onClick={() => doCopy(password)}
                 title="Copy to clipboard"
                 style={{
-                  background: "var(--pg-card-hover)",
                   border: "1px solid var(--pg-border)",
                   borderRadius: "var(--pg-radius-sm)",
                   width: 42,
@@ -523,7 +522,6 @@ export function PasswordGenerator() {
                 onClick={doGenerate}
                 title="Regenerate"
                 style={{
-                  background: "var(--pg-card-hover)",
                   border: "1px solid var(--pg-border)",
                   borderRadius: "var(--pg-radius-sm)",
                   width: 42,
