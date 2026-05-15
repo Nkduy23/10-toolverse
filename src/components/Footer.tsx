@@ -10,7 +10,7 @@ const TOOL_LINKS = [
 
 const PROJECT_LINKS = [
   {
-    href: "https://github.com/yourusername/toolverse",
+    href: "https://github.com/Nkduy23/10-toolverse",
     label: "GitHub ↗",
     external: true,
   },

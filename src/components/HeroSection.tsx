@@ -66,7 +66,7 @@ export function HeroSection() {
             Khám phá tools
           </Link>
           <a
-            href="https://github.com/yourusername/toolverse"
+            href="https://github.com/Nkduy23/10-toolverse"
             className="btn btn-secondary"
             target="_blank"
             rel="noopener noreferrer"

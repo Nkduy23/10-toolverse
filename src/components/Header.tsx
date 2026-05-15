@@ -314,7 +314,7 @@ export function Header() {
 
             {/* GitHub — hidden on mobile */}
             <a
-              href="https://github.com/yourusername/toolverse"
+              href="https://github.com/Nkduy23/10-toolverse"
               aria-label="GitHub"
               target="_blank"
               rel="noopener noreferrer"
@@ -416,7 +416,7 @@ export function Header() {
           {/* Footer actions */}
           <div className="mobile-drawer-footer">
             <a
-              href="https://github.com/yourusername/toolverse"
+              href="https://github.com/Nkduy23/10-toolverse"
               aria-label="GitHub"
               target="_blank"
               rel="noopener noreferrer"
