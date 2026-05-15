@@ -1,0 +1,509 @@
+/* =============================================
+   JSON Viewer — Tool-specific styles
+   Features: tree view, syntax highlight, search,
+   collapse/expand, copy node, validate
+   ============================================= */
+
+/* ---- CSS vars ---- */
+.jv-root {
+  --jv-bg:           var(--color-bg,            #0d1117);
+  --jv-card:         var(--color-surface,        #161b22);
+  --jv-input:        var(--color-bg,             #0d1117);
+  --jv-border:       var(--color-border,         #30363d);
+  --jv-border-focus: var(--color-border-focus,   #58a6ff);
+  --jv-accent:       var(--color-accent,         #f7a130);
+  --jv-accent-glow:  var(--color-accent-subtle,  rgba(247,161,48,0.18));
+  --jv-text:         var(--color-text,           #e6edf3);
+  --jv-text-sub:     var(--color-text-secondary, #8b949e);
+  --jv-success:      var(--color-success,        #3fb950);
+  --jv-danger:       var(--color-danger,         #f85149);
+  --jv-radius:       var(--radius-lg,            12px);
+  --jv-radius-sm:    var(--radius-md,            8px);
+  --jv-transition:   var(--transition-fast,      0.2s ease);
+
+  /* JSON syntax colors */
+  --jv-key:      #79c0ff;
+  --jv-string:   #a5d6a7;
+  --jv-number:   #f7c948;
+  --jv-bool:     #f7a130;
+  --jv-null:     #f85149;
+  --jv-bracket:  #8b949e;
+
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ---- Layout ---- */
+.jv-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+}
+
+/* ---- Breadcrumb ---- */
+.jv-breadcrumb {
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--jv-text-sub);
+  border-bottom: 1px solid var(--jv-border);
+  margin: 0 auto;
+  width: 100%;
+}
+.jv-breadcrumb a { color: #58a6ff; text-decoration: none; }
+.jv-breadcrumb a:hover { text-decoration: underline; }
+
+/* ---- Panel ---- */
+.jv-panel {
+  background: var(--jv-card);
+  border: 1px solid var(--jv-border);
+  border-radius: var(--jv-radius);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ---- Toolbar ---- */
+.jv-toolbar {
+  background: var(--jv-card);
+  border: 1px solid var(--jv-border);
+  border-radius: var(--jv-radius);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.jv-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.jv-toolbar-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--jv-text-sub);
+  margin-right: 0.15rem;
+}
+
+.jv-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--jv-border);
+  flex-shrink: 0;
+  margin: 0 0.25rem;
+}
+
+/* ---- Buttons ---- */
+.jv-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--jv-input);
+  border: 1px solid var(--jv-border);
+  border-radius: var(--jv-radius-sm);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--jv-text-sub);
+  cursor: pointer;
+  transition: border-color var(--jv-transition), color var(--jv-transition), background var(--jv-transition);
+  white-space: nowrap;
+  line-height: 1;
+}
+.jv-btn:hover {
+  border-color: var(--jv-border-focus);
+  color: var(--jv-text);
+}
+.jv-btn.active {
+  border-color: var(--jv-accent);
+  background: var(--jv-accent-glow);
+  color: var(--jv-accent);
+}
+.jv-btn.success:hover {
+  border-color: var(--jv-success);
+  color: var(--jv-success);
+}
+.jv-btn.danger:hover {
+  border-color: var(--jv-danger);
+  color: var(--jv-danger);
+}
+.jv-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- Search bar ---- */
+.jv-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 160px;
+  max-width: 280px;
+}
+.jv-search-icon {
+  position: absolute;
+  left: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--jv-text-sub);
+  pointer-events: none;
+}
+.jv-search {
+  width: 100%;
+  background: var(--jv-input);
+  border: 1px solid var(--jv-border);
+  border-radius: var(--jv-radius-sm);
+  padding: 0.4rem 0.75rem 0.4rem 2rem;
+  font-size: 0.78rem;
+  color: var(--jv-text);
+  outline: none;
+  transition: border-color var(--jv-transition);
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+.jv-search:focus { border-color: var(--jv-border-focus); }
+.jv-search::placeholder { color: var(--jv-text-sub); }
+.jv-search-count {
+  position: absolute;
+  right: 0.5rem;
+  font-size: 0.68rem;
+  color: var(--jv-accent);
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---- Editor row ---- */
+.jv-editor-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* ---- Textarea (raw input) ---- */
+.jv-textarea {
+  width: 100%;
+  background: var(--jv-input);
+  border: 1px solid var(--jv-border);
+  border-radius: var(--jv-radius-sm);
+  padding: 0.85rem 1rem;
+  color: var(--jv-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  resize: vertical;
+  min-height: 380px;
+  outline: none;
+  transition: border-color var(--jv-transition);
+  box-sizing: border-box;
+}
+.jv-textarea::placeholder {
+  color: var(--jv-text-sub);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.82rem;
+}
+.jv-textarea:focus { border-color: var(--jv-border-focus); }
+.jv-textarea.error { border-color: var(--jv-danger); }
+.jv-textarea.valid { border-color: var(--jv-success); }
+
+/* ---- Validation bar ---- */
+.jv-validate-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--jv-radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: all var(--jv-transition);
+}
+.jv-validate-bar.valid {
+  background: rgba(63,185,80,0.08);
+  border-color: rgba(63,185,80,0.3);
+  color: var(--jv-success);
+}
+.jv-validate-bar.error {
+  background: rgba(248,81,73,0.08);
+  border-color: rgba(248,81,73,0.3);
+  color: var(--jv-danger);
+}
+.jv-validate-bar.empty {
+  background: rgba(139,148,158,0.06);
+  border-color: var(--jv-border);
+  color: var(--jv-text-sub);
+}
+
+/* ---- Tree view container ---- */
+.jv-tree-wrap {
+  background: var(--jv-input);
+  border: 1px solid var(--jv-border);
+  border-radius: var(--jv-radius-sm);
+  padding: 0.85rem 1rem;
+  min-height: 380px;
+  overflow: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.8;
+  position: relative;
+}
+.jv-tree-wrap.has-search .jv-node-key.highlight,
+.jv-tree-wrap.has-search .jv-node-val.highlight {
+  background: rgba(247,201,72,0.25);
+  border-radius: 3px;
+  outline: 1px solid rgba(247,201,72,0.5);
+}
+
+/* ---- Tree node ---- */
+.jv-node {
+  display: flex;
+  flex-direction: column;
+}
+.jv-node-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0.05rem 0.25rem;
+  border-radius: 4px;
+  position: relative;
+  cursor: default;
+  transition: background 0.12s;
+}
+.jv-node-row:hover {
+  background: rgba(255,255,255,0.03);
+}
+.jv-node-row:hover .jv-node-copy {
+  opacity: 1;
+}
+
+.jv-node-indent {
+  flex-shrink: 0;
+}
+
+/* Toggle button for collapsible nodes */
+.jv-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--jv-bracket);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0 0.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color var(--jv-transition);
+  user-select: none;
+}
+.jv-toggle:hover { color: var(--jv-accent); }
+
+.jv-toggle-spacer {
+  display: inline-block;
+  width: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Key */
+.jv-node-key {
+  color: var(--jv-key);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.jv-node-colon {
+  color: var(--jv-bracket);
+}
+
+/* Values */
+.jv-node-val {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.jv-node-val.type-string  { color: var(--jv-string); }
+.jv-node-val.type-number  { color: var(--jv-number); }
+.jv-node-val.type-boolean { color: var(--jv-bool); }
+.jv-node-val.type-null    { color: var(--jv-null); }
+
+.jv-bracket { color: var(--jv-bracket); }
+
+/* Children container */
+.jv-node-children {
+  padding-left: 1.5rem;
+  border-left: 1px solid rgba(139,148,158,0.15);
+  margin-left: 0.75rem;
+}
+
+/* Copy node button */
+.jv-node-copy {
+  opacity: 0;
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--jv-border);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.62rem;
+  color: var(--jv-text-sub);
+  cursor: pointer;
+  transition: opacity var(--jv-transition), border-color var(--jv-transition), color var(--jv-transition);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.jv-node-copy:hover {
+  border-color: var(--jv-success);
+  color: var(--jv-success);
+}
+.jv-node-copy.flash {
+  border-color: var(--jv-success);
+  color: var(--jv-success);
+  opacity: 1;
+}
+
+/* Empty/error states */
+.jv-tree-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  gap: 0.5rem;
+  color: var(--jv-text-sub);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.jv-tree-empty-icon { font-size: 2.5rem; opacity: 0.4; }
+
+/* ---- Panel header row ---- */
+.jv-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.jv-panel-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--jv-text-sub);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ---- Stats bar ---- */
+.jv-stats {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.jv-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+.jv-stat-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--jv-text);
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1;
+}
+.jv-stat-lbl {
+  font-size: 0.68rem;
+  color: var(--jv-text-sub);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---- Toast ---- */
+.jv-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #1c2330;
+  border: 1px solid #3fb950;
+  color: #3fb950;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--jv-radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  z-index: 300;
+}
+.jv-toast.show { opacity: 1; transform: translateY(0); }
+
+/* ---- Indent size selector ---- */
+.jv-indent-select {
+  background: var(--jv-input);
+  border: 1px solid var(--jv-border);
+  border-radius: var(--jv-radius-sm);
+  padding: 0.35rem 0.5rem;
+  font-size: 0.78rem;
+  color: var(--jv-text-sub);
+  cursor: pointer;
+  outline: none;
+  font-family: 'JetBrains Mono', monospace;
+  transition: border-color var(--jv-transition);
+}
+.jv-indent-select:focus { border-color: var(--jv-border-focus); }
+.jv-indent-select option { background: #161b22; }
+
+/* ---- Learning log ---- */
+.jv-log {
+  border: 1px solid var(--jv-border);
+  border-radius: var(--jv-radius-sm);
+  overflow: hidden;
+}
+.jv-log summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--jv-text-sub);
+  background: var(--jv-input);
+  user-select: none;
+  list-style: none;
+  transition: color var(--jv-transition);
+}
+.jv-log summary:hover { color: var(--jv-text); }
+.jv-log[open] summary { border-bottom: 1px solid var(--jv-border); }
+.jv-log-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--jv-text-sub);
+  line-height: 1.7;
+}
+.jv-log-content strong { color: var(--jv-text); }
+.jv-log-content code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  background: var(--jv-bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  color: #79c0ff;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 760px) {
+  .jv-layout { padding: 1rem; }
+  .jv-breadcrumb { padding: 0.6rem 1rem; }
+  .jv-editor-row { grid-template-columns: 1fr; }
+  .jv-textarea { min-height: 220px; }
+  .jv-tree-wrap { min-height: 260px; }
+  .jv-search-wrap { max-width: 100%; }
+}
