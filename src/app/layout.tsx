@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   description:
     "Bộ công cụ web miễn phí: password generator, QR code, color palette, text formatter... Không cần đăng ký. Vào dùng, xong thoát.",
 
-  metadataBase: new URL("https://nkverse.com"),
+  metadataBase: new URL("https://10-toolverse.vercel.app/"),
 
   icons: {
     icon: "/favicon.png",
@@ -38,18 +38,28 @@ export const metadata: Metadata = {
 
   openGraph: {
     title: "NKVerse — Kho công cụ web miễn phí",
-
     description:
       "Bộ công cụ web miễn phí cho developer Việt. Không cần đăng ký.",
-
-    // url: "https://nkverse.com",
-    url: "10-toolverse.vercel.app",
-
+    url: "https://10-toolverse.vercel.app/",
     siteName: "NKVerse",
-
     locale: "vi_VN",
-
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "NKVerse — Kho công cụ web miễn phí",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "NKVerse — Kho công cụ web miễn phí",
+    description:
+      "Bộ công cụ web miễn phí cho developer Việt. Không cần đăng ký.",
+    images: ["/og-image.png"],
   },
 };
 
