@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://nkverse.com"),
 
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
     apple: "/apple-touch-icon.png",
   },
 

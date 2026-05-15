@@ -123,10 +123,13 @@ export function Footer() {
                 <Image
                   src="/logo-nkverse.png"
                   alt="NKVerse Logo"
-                  width={150}
-                  height={50}
+                  width={0}
+                  height={0}
+                  sizes="150px"
                   priority
                   style={{
+                    width: "150px",
+                    height: "auto",
                     borderRadius: 10,
                     flexShrink: 0,
                   }}
