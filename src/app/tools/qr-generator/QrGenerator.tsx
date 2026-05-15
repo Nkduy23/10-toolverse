@@ -64,6 +64,7 @@ export function QrGenerator() {
   const [bgColor, setBgColor] = useState("#ffffff");
   const [dataUrl, setDataUrl] = useState("");
   const [generating, setGenerating] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("✅ Đã copy link ảnh!");
@@ -92,7 +93,10 @@ export function QrGenerator() {
       setDataUrl(url);
       setHistory((prev) => {
         const label = truncateLabel(qrText);
-        const next = [{ text: qrText, label, dataUrl: url }, ...prev].slice(0, 5);
+        const next = [{ text: qrText, label, dataUrl: url }, ...prev].slice(
+          0,
+          5,
+        );
         return next;
       });
     } catch {
@@ -103,10 +107,15 @@ export function QrGenerator() {
 
   // Auto-generate when inputs change (debounced)
   useEffect(() => {
-    if (!qrText) { setDataUrl(""); return; }
-    const t = setTimeout(() => { doGenerate(); }, 300);
+    if (!qrText) {
+      setDataUrl("");
+      return;
+    }
+    const t = setTimeout(() => {
+      doGenerate();
+    }, 300);
     return () => clearTimeout(t);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qrText, size, fgColor, bgColor, errorLevel]);
 
   // ── Download ───────────────────────────────────────────────────
@@ -156,7 +165,9 @@ export function QrGenerator() {
         {/* ── Left: Controls ── */}
         <section className="qr-panel">
           {/* Header */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+          >
             <div
               style={{
                 fontSize: "2rem",
@@ -173,27 +184,69 @@ export function QrGenerator() {
               📱
             </div>
             <div>
-              <h1 style={{ margin: 0, fontSize: "1.25rem", fontWeight: 700, color: "var(--qr-text)" }}>
+              <h1
+                style={{
+                  margin: 0,
+                  fontSize: "1.25rem",
+                  fontWeight: 700,
+                  color: "var(--qr-text)",
+                }}
+              >
                 QR Generator
               </h1>
-              <p style={{ margin: 0, fontSize: "0.82rem", color: "var(--qr-text-sub)" }}>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: "0.82rem",
+                  color: "var(--qr-text-sub)",
+                }}
+              >
                 Tạo QR Code nhanh, tuỳ chỉnh màu & kích thước
               </p>
             </div>
           </div>
 
           {/* QR Type selector */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-            <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--qr-text-sub)" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}
+          >
+            <span
+              style={{
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "var(--qr-text-sub)",
+              }}
+            >
               Loại nội dung
             </span>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "0.5rem",
+              }}
+            >
               {(
                 [
-                  { key: "url",   icon: "🔗", name: "URL",   desc: "Website link" },
-                  { key: "text",  icon: "📝", name: "Text",  desc: "Văn bản tự do" },
-                  { key: "email", icon: "✉️",  name: "Email", desc: "Địa chỉ email" },
-                  { key: "wifi",  icon: "📶", name: "WiFi",  desc: "Thông tin mạng" },
+                  { key: "url", icon: "🔗", name: "URL", desc: "Website link" },
+                  {
+                    key: "text",
+                    icon: "📝",
+                    name: "Text",
+                    desc: "Văn bản tự do",
+                  },
+                  {
+                    key: "email",
+                    icon: "✉️",
+                    name: "Email",
+                    desc: "Địa chỉ email",
+                  },
+                  {
+                    key: "wifi",
+                    icon: "📶",
+                    name: "WiFi",
+                    desc: "Thông tin mạng",
+                  },
                 ] as const
               ).map(({ key, icon, name, desc }) => (
                 <label key={key} className="qr-option-card">
@@ -202,12 +255,37 @@ export function QrGenerator() {
                     name="qr-type"
                     value={key}
                     checked={qrType === key}
-                    onChange={() => { setQrType(key); setText(""); }}
+                    onChange={() => {
+                      setQrType(key);
+                      setText("");
+                    }}
                   />
-                  <div style={{ display: "flex", flexDirection: "column", gap: 2, pointerEvents: "none" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                      pointerEvents: "none",
+                    }}
+                  >
                     <span style={{ fontSize: "1.1rem" }}>{icon}</span>
-                    <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--qr-text)" }}>{name}</span>
-                    <span style={{ fontSize: "0.72rem", color: "var(--qr-text-sub)" }}>{desc}</span>
+                    <span
+                      style={{
+                        fontSize: "0.82rem",
+                        fontWeight: 600,
+                        color: "var(--qr-text)",
+                      }}
+                    >
+                      {name}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "0.72rem",
+                        color: "var(--qr-text-sub)",
+                      }}
+                    >
+                      {desc}
+                    </span>
                   </div>
                 </label>
               ))}
@@ -215,17 +293,29 @@ export function QrGenerator() {
           </div>
 
           {/* Input area */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--qr-text-sub)" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+          >
+            <label
+              style={{
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "var(--qr-text-sub)",
+              }}
+            >
               {qrType === "wifi" ? "Tên mạng (SSID)" : "Nội dung"}
             </label>
             <textarea
               className="qr-textarea"
               placeholder={getTypePlaceholder(qrType)}
-              value={text}
+              value={qrType === "wifi" ? wifi.ssid : text}
               maxLength={MAX_CHARS}
               rows={qrType === "wifi" ? 1 : 3}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) =>
+                qrType === "wifi"
+                  ? setWifi((p) => ({ ...p, ssid: e.target.value }))
+                  : setText(e.target.value)
+              }
             />
             <div className={`qr-char-count${overLimit ? " warn" : ""}`}>
               {charCount} / {MAX_CHARS}
@@ -233,35 +323,88 @@ export function QrGenerator() {
 
             {/* WiFi extras */}
             {qrType === "wifi" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                <input
-                  type="password"
-                  placeholder="Mật khẩu WiFi"
-                  value={wifi.password}
-                  onChange={(e) => setWifi((p) => ({ ...p, password: e.target.value }))}
-                  style={{
-                    background: "var(--qr-input)",
-                    border: "1px solid var(--qr-border)",
-                    borderRadius: "var(--qr-radius-sm)",
-                    padding: "0.6rem 0.85rem",
-                    color: "var(--qr-text)",
-                    fontSize: "0.9rem",
-                    outline: "none",
-                    width: "100%",
-                    boxSizing: "border-box",
-                  }}
-                />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.5rem",
+                }}
+              >
+                <div style={{ position: "relative" }}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Mật khẩu WiFi"
+                    value={wifi.password}
+                    onChange={(e) =>
+                      setWifi((p) => ({ ...p, password: e.target.value }))
+                    }
+                    style={{
+                      background: "var(--qr-input)",
+                      border: "1px solid var(--qr-border)",
+                      borderRadius: "var(--qr-radius-sm)",
+                      padding: "0.6rem 2.5rem 0.6rem 0.85rem",
+                      color: "var(--qr-text)",
+                      fontSize: "0.9rem",
+                      outline: "none",
+                      width: "100%",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    title={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                    style={{
+                      position: "absolute",
+                      right: "0.6rem",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: "0.2rem",
+                      color: "var(--qr-text-sub)",
+                      fontSize: "1rem",
+                      lineHeight: 1,
+                      transition: "color 0.2s",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.color = "var(--qr-text)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.color = "var(--qr-text-sub)")
+                    }
+                  >
+                    {showPassword ? "🙈" : "👁️"}
+                  </button>
+                </div>
                 <div style={{ display: "flex", gap: "0.4rem" }}>
                   {(["WPA", "WEP", "nopass"] as const).map((enc) => (
-                    <label key={enc} className="qr-option-card" style={{ flex: 1 }}>
+                    <label
+                      key={enc}
+                      className="qr-option-card"
+                      style={{ flex: 1 }}
+                    >
                       <input
                         type="radio"
                         name="wifi-enc"
                         value={enc}
                         checked={wifi.encryption === enc}
-                        onChange={() => setWifi((p) => ({ ...p, encryption: enc }))}
+                        onChange={() =>
+                          setWifi((p) => ({ ...p, encryption: enc }))
+                        }
                       />
-                      <span style={{ fontSize: "0.78rem", fontWeight: 600, color: wifi.encryption === enc ? "var(--qr-accent)" : "var(--qr-text-sub)", pointerEvents: "none" }}>
+                      <span
+                        style={{
+                          fontSize: "0.78rem",
+                          fontWeight: 600,
+                          color:
+                            wifi.encryption === enc
+                              ? "var(--qr-accent)"
+                              : "var(--qr-text-sub)",
+                          pointerEvents: "none",
+                        }}
+                      >
                         {enc === "nopass" ? "Mở" : enc}
                       </span>
                     </label>
@@ -272,9 +415,23 @@ export function QrGenerator() {
           </div>
 
           {/* Size slider */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--qr-text-sub)" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <label
+                style={{
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  color: "var(--qr-text-sub)",
+                }}
+              >
                 Kích thước
               </label>
               <span
@@ -302,17 +459,40 @@ export function QrGenerator() {
               style={sliderStyle}
               onChange={(e) => setSize(+e.target.value)}
             />
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.72rem", color: "var(--qr-text-sub)" }}>
-              {["128", "256", "384", "512"].map((t) => <span key={t}>{t}px</span>)}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "0.72rem",
+                color: "var(--qr-text-sub)",
+              }}
+            >
+              {["128", "256", "384", "512"].map((t) => (
+                <span key={t}>{t}px</span>
+              ))}
             </div>
           </div>
 
           {/* Error correction level */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-            <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--qr-text-sub)" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}
+          >
+            <span
+              style={{
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "var(--qr-text-sub)",
+              }}
+            >
               Mức sửa lỗi
             </span>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.4rem" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: "0.4rem",
+              }}
+            >
               {(
                 [
                   { key: "L", name: "L", desc: "7%" },
@@ -321,7 +501,11 @@ export function QrGenerator() {
                   { key: "H", name: "H", desc: "30%" },
                 ] as const
               ).map(({ key, name, desc }) => (
-                <label key={key} className="qr-option-card" style={{ textAlign: "center" }}>
+                <label
+                  key={key}
+                  className="qr-option-card"
+                  style={{ textAlign: "center" }}
+                >
                   <input
                     type="radio"
                     name="error-level"
@@ -330,10 +514,27 @@ export function QrGenerator() {
                     onChange={() => setErrorLevel(key)}
                   />
                   <div style={{ pointerEvents: "none" }}>
-                    <div style={{ fontSize: "1rem", fontWeight: 700, fontFamily: "'JetBrains Mono', monospace", color: errorLevel === key ? "var(--qr-accent)" : "var(--qr-text-sub)" }}>
+                    <div
+                      style={{
+                        fontSize: "1rem",
+                        fontWeight: 700,
+                        fontFamily: "'JetBrains Mono', monospace",
+                        color:
+                          errorLevel === key
+                            ? "var(--qr-accent)"
+                            : "var(--qr-text-sub)",
+                      }}
+                    >
                       {name}
                     </div>
-                    <div style={{ fontSize: "0.7rem", color: "var(--qr-text-sub)" }}>{desc}</div>
+                    <div
+                      style={{
+                        fontSize: "0.7rem",
+                        color: "var(--qr-text-sub)",
+                      }}
+                    >
+                      {desc}
+                    </div>
                   </div>
                 </label>
               ))}
@@ -341,13 +542,28 @@ export function QrGenerator() {
           </div>
 
           {/* Colors */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-            <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--qr-text-sub)" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}
+          >
+            <span
+              style={{
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "var(--qr-text-sub)",
+              }}
+            >
               Màu sắc
             </span>
             <div style={{ display: "flex", gap: "1rem" }}>
               {/* Foreground */}
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flex: 1 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  flex: 1,
+                }}
+              >
                 <input
                   type="color"
                   className="qr-color-swatch"
@@ -356,12 +572,35 @@ export function QrGenerator() {
                   title="Màu QR (foreground)"
                 />
                 <div>
-                  <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--qr-text)" }}>Màu QR</div>
-                  <div style={{ fontSize: "0.72rem", color: "var(--qr-text-sub)", fontFamily: "'JetBrains Mono', monospace" }}>{fgColor}</div>
+                  <div
+                    style={{
+                      fontSize: "0.78rem",
+                      fontWeight: 600,
+                      color: "var(--qr-text)",
+                    }}
+                  >
+                    Màu QR
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "0.72rem",
+                      color: "var(--qr-text-sub)",
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  >
+                    {fgColor}
+                  </div>
                 </div>
               </div>
               {/* Background */}
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flex: 1 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  flex: 1,
+                }}
+              >
                 <input
                   type="color"
                   className="qr-color-swatch"
@@ -370,8 +609,24 @@ export function QrGenerator() {
                   title="Màu nền (background)"
                 />
                 <div>
-                  <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--qr-text)" }}>Màu nền</div>
-                  <div style={{ fontSize: "0.72rem", color: "var(--qr-text-sub)", fontFamily: "'JetBrains Mono', monospace" }}>{bgColor}</div>
+                  <div
+                    style={{
+                      fontSize: "0.78rem",
+                      fontWeight: 600,
+                      color: "var(--qr-text)",
+                    }}
+                  >
+                    Màu nền
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "0.72rem",
+                      color: "var(--qr-text-sub)",
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  >
+                    {bgColor}
+                  </div>
                 </div>
               </div>
             </div>
@@ -386,7 +641,10 @@ export function QrGenerator() {
               alignItems: "center",
               justifyContent: "center",
               gap: "0.5rem",
-              background: !qrText || overLimit ? "var(--qr-border)" : "var(--color-brand-dark)",
+              background:
+                !qrText || overLimit
+                  ? "var(--qr-border)"
+                  : "var(--color-brand-dark)",
               color: !qrText || overLimit ? "var(--qr-text-sub)" : "#fff",
               border: "none",
               borderRadius: "var(--qr-radius-sm)",
@@ -397,7 +655,9 @@ export function QrGenerator() {
               transition: "opacity 0.2s, transform 0.1s",
               width: "100%",
             }}
-            onMouseDown={(e) => { if (qrText) e.currentTarget.style.transform = "scale(0.97)"; }}
+            onMouseDown={(e) => {
+              if (qrText) e.currentTarget.style.transform = "scale(0.97)";
+            }}
             onMouseUp={(e) => (e.currentTarget.style.transform = "")}
             onMouseLeave={(e) => (e.currentTarget.style.transform = "")}
           >
@@ -409,7 +669,14 @@ export function QrGenerator() {
         {/* ── Right: Output ── */}
         <section className="qr-panel">
           {/* QR Preview */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.75rem",
+              alignItems: "center",
+            }}
+          >
             <div className={`qr-canvas-wrap${dataUrl ? " has-qr" : ""}`}>
               {dataUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -418,13 +685,19 @@ export function QrGenerator() {
                   src={dataUrl}
                   alt="QR Code"
                   className={`qr-canvas${generating ? " qr-generating" : ""}`}
-                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
                 />
               ) : (
                 <div className="qr-placeholder">
                   <div className="qr-placeholder-icon">▣</div>
                   <div className="qr-placeholder-text">
-                    Nhập nội dung bên trái<br />để tạo QR Code
+                    Nhập nội dung bên trái
+                    <br />
+                    để tạo QR Code
                   </div>
                 </div>
               )}
@@ -432,7 +705,14 @@ export function QrGenerator() {
 
             {/* Action buttons */}
             {dataUrl && (
-              <div style={{ display: "flex", gap: "0.5rem", width: "100%", maxWidth: 320 }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.5rem",
+                  width: "100%",
+                  maxWidth: 320,
+                }}
+              >
                 <button
                   onClick={doDownload}
                   style={{
@@ -472,8 +752,13 @@ export function QrGenerator() {
                     cursor: "pointer",
                     transition: "border-color 0.2s",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--qr-border-focus)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--qr-border)")}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.borderColor =
+                      "var(--qr-border-focus)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.borderColor = "var(--qr-border)")
+                  }
                 >
                   📋 Copy ảnh
                 </button>
@@ -494,27 +779,71 @@ export function QrGenerator() {
                 gap: "0.3rem",
               }}
             >
-              <div style={{ fontSize: "0.78rem", color: "var(--qr-text-sub)", fontWeight: 600, marginBottom: "0.25rem" }}>
+              <div
+                style={{
+                  fontSize: "0.78rem",
+                  color: "var(--qr-text-sub)",
+                  fontWeight: 600,
+                  marginBottom: "0.25rem",
+                }}
+              >
                 📊 Thông tin QR
               </div>
               {[
                 ["Loại", qrType.toUpperCase()],
                 ["Kích thước", `${size} × ${size}px`],
-                ["Sửa lỗi", `${errorLevel} (${errorLevel === "L" ? "7" : errorLevel === "M" ? "15" : errorLevel === "Q" ? "25" : "30"}%)`],
+                [
+                  "Sửa lỗi",
+                  `${errorLevel} (${errorLevel === "L" ? "7" : errorLevel === "M" ? "15" : errorLevel === "Q" ? "25" : "30"}%)`,
+                ],
                 ["Ký tự", `${charCount}`],
               ].map(([k, v]) => (
-                <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem" }}>
+                <div
+                  key={k}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "0.8rem",
+                  }}
+                >
                   <span style={{ color: "var(--qr-text-sub)" }}>{k}</span>
-                  <span style={{ color: "var(--qr-text)", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.78rem" }}>{v}</span>
+                  <span
+                    style={{
+                      color: "var(--qr-text)",
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: "0.78rem",
+                    }}
+                  >
+                    {v}
+                  </span>
                 </div>
               ))}
             </div>
           )}
 
           {/* History */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", flex: 1 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--qr-text-sub)" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.6rem",
+              flex: 1,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "0.82rem",
+                  fontWeight: 600,
+                  color: "var(--qr-text-sub)",
+                }}
+              >
                 🕐 Lịch sử (5 gần nhất)
               </span>
               <button
@@ -529,19 +858,38 @@ export function QrGenerator() {
                   borderRadius: 4,
                   transition: "color 0.2s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--qr-danger)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--qr-text-sub)")}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.color = "var(--qr-danger)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = "var(--qr-text-sub)")
+                }
               >
                 Xóa tất cả
               </button>
             </div>
 
             {history.length === 0 ? (
-              <p style={{ fontSize: "0.8rem", color: "var(--qr-text-sub)", margin: 0 }}>
+              <p
+                style={{
+                  fontSize: "0.8rem",
+                  color: "var(--qr-text-sub)",
+                  margin: 0,
+                }}
+              >
                 Chưa có QR nào được tạo.
               </p>
             ) : (
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+              <ul
+                style={{
+                  listStyle: "none",
+                  margin: 0,
+                  padding: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.4rem",
+                }}
+              >
                 {history.map((item, i) => (
                   <li
                     key={`${item.text}-${i}`}
@@ -554,9 +902,27 @@ export function QrGenerator() {
                   >
                     {/* Mini QR preview */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.dataUrl} alt="" style={{ width: 28, height: 28, borderRadius: 3, flexShrink: 0, imageRendering: "pixelated" }} />
+                    <img
+                      src={item.dataUrl}
+                      alt=""
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: 3,
+                        flexShrink: 0,
+                        imageRendering: "pixelated",
+                      }}
+                    />
                     <span className="qr-history-item-text">{item.label}</span>
-                    <span style={{ fontSize: "0.85rem", opacity: 0.6, flexShrink: 0 }}>↩</span>
+                    <span
+                      style={{
+                        fontSize: "0.85rem",
+                        opacity: 0.6,
+                        flexShrink: 0,
+                      }}
+                    >
+                      ↩
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -571,16 +937,24 @@ export function QrGenerator() {
                 <strong>QR Code hoạt động thế nào?</strong>
               </p>
               <p>
-                QR Code mã hóa dữ liệu thành ma trận điểm ảnh 2D theo chuẩn ISO 18004. Thư viện <code>qrcode</code> dùng thuật toán Reed-Solomon để tạo error correction, cho phép QR đọc được dù bị che tới 30% (level H).
+                QR Code mã hóa dữ liệu thành ma trận điểm ảnh 2D theo chuẩn ISO
+                18004. Thư viện <code>qrcode</code> dùng thuật toán Reed-Solomon
+                để tạo error correction, cho phép QR đọc được dù bị che tới 30%
+                (level H).
               </p>
               <p>
-                <strong>Error correction levels:</strong> L (7%) → M (15%) → Q (25%) → H (30%). Level cao hơn = QR dày hơn nhưng bền hơn.
+                <strong>Error correction levels:</strong> L (7%) → M (15%) → Q
+                (25%) → H (30%). Level cao hơn = QR dày hơn nhưng bền hơn.
               </p>
               <p>
-                <strong>WiFi QR format:</strong> <code>WIFI:T:WPA;S:ssid;P:password;;</code> — Android/iOS tự kết nối khi scan.
+                <strong>WiFi QR format:</strong>{" "}
+                <code>WIFI:T:WPA;S:ssid;P:password;;</code> — Android/iOS tự kết
+                nối khi scan.
               </p>
               <p>
-                <strong>Download PNG:</strong> dùng <code>QRCode.toDataURL()</code> → tạo thẻ <code>{'<a>'}</code> với <code>download</code> attribute → click programmatically.
+                <strong>Download PNG:</strong> dùng{" "}
+                <code>QRCode.toDataURL()</code> → tạo thẻ <code>{"<a>"}</code>{" "}
+                với <code>download</code> attribute → click programmatically.
               </p>
             </div>
           </details>
@@ -588,9 +962,7 @@ export function QrGenerator() {
       </div>
 
       {/* Toast */}
-      <div className={`qr-toast${showToast ? " show" : ""}`}>
-        {toastMsg}
-      </div>
+      <div className={`qr-toast${showToast ? " show" : ""}`}>{toastMsg}</div>
     </div>
   );
 }

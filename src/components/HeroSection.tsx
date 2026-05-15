@@ -34,7 +34,7 @@ export function HeroSection() {
         {/* Badge */}
         <div className="hero-badge">
           <span className="hero-badge-dot" />
-          Build in public · Phase 0 đang tiến hành
+          Build in public · Phase 1-5 đang tiến hành
         </div>
 
         {/* Title */}
