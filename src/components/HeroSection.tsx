@@ -2,10 +2,10 @@ import { Fragment } from "react";
 import Link from "next/link";
 
 const STATS = [
-  { num: "10", label: "Tools planned" },
+  { num: "10", label: "Tools sẵn dùng" },
   { num: "100%", label: "Miễn phí" },
   { num: "0", label: "Cần đăng ký" },
-  { num: "Phase 0", label: "Đang build" },
+  { num: "MIT", label: "Open source" },
 ];
 
 const FLOATERS = ["🔑", "📱", "🎨", "📝", "🗜️", "⚙️"];
@@ -34,7 +34,7 @@ export function HeroSection() {
         {/* Badge */}
         <div className="hero-badge">
           <span className="hero-badge-dot" />
-          Build in public · Phase 1-5 đang tiến hành
+          "Open source · Miễn phí mãi mãi"
         </div>
 
         {/* Title */}

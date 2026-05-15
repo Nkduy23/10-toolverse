@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Syne, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+
 import "./globals.css";
 
 const syne = Syne({
@@ -20,15 +23,33 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "ToolVerse — Kho công cụ web miễn phí cho developer Việt",
+  title: "NKVerse — Kho công cụ web miễn phí cho developer Việt",
+
   description:
     "Bộ công cụ web miễn phí: password generator, QR code, color palette, text formatter... Không cần đăng ký. Vào dùng, xong thoát.",
-  metadataBase: new URL("https://toolverse.com"),
+
+  metadataBase: new URL("https://nkverse.com"),
+
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+
   openGraph: {
-    title: "ToolVerse — Kho công cụ web miễn phí",
+    title: "NKVerse — Kho công cụ web miễn phí",
+
     description:
       "Bộ công cụ web miễn phí cho developer Việt. Không cần đăng ký.",
-    url: "https://toolverse.com",
+
+    // url: "https://nkverse.com",
+    url: "10-toolverse.vercel.app",
+
+    siteName: "NKVerse",
+
+    locale: "vi_VN",
+
+    type: "website",
   },
 };
 
@@ -44,13 +65,23 @@ export default function RootLayout({
       className={`${syne.variable} ${dmSans.variable}`}
     >
       <body
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        }}
       >
         <Header />
+
         <main style={{ flex: 1 }}>{children}</main>
+
         <Footer />
-        {/* Toast portal — injected imperatively by showToast() */}
+
+        {/* Toast portal */}
         <div id="toast-container" aria-live="polite" aria-atomic="false" />
+
+        {/* Vercel Analytics */}
+        <Analytics />
       </body>
     </html>
   );

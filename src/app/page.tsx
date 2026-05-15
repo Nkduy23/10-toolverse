@@ -1,13 +1,13 @@
 import { HeroSection } from "@/components/HeroSection";
 import { ToolsGrid } from "@/components/ToolsGrid";
-import { PhaseRoadmap } from "@/components/PhaseRoadmap";
+import { HowItWorks } from "@/components/HowItWorks";
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
       <ToolsGrid />
-      <PhaseRoadmap />
+      <HowItWorks />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const TOOL_LINKS = [
   { href: "/tools/password-generator", label: "Password Generator" },
@@ -14,8 +15,8 @@ const PROJECT_LINKS = [
     label: "GitHub ↗",
     external: true,
   },
-  { href: "/docs/architecture", label: "Architecture" },
-  { href: "/docs/seo-guide", label: "SEO Guide" },
+  // { href: "/docs/architecture", label: "Architecture" },
+  // { href: "/docs/seo-guide", label: "SEO Guide" },
 ];
 
 export function Footer() {
@@ -110,41 +111,26 @@ export function Footer() {
             <div className="footer-brand">
               <Link
                 href="/"
-                aria-label="ToolVerse"
+                aria-label="NKVerse - Về trang chủ"
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 8,
+                  gap: 12,
                   textDecoration: "none",
-                  marginBottom: 12,
+                  flexShrink: 0,
                 }}
               >
-                <div
+                <Image
+                  src="/logo-nkverse.png"
+                  alt="NKVerse Logo"
+                  width={150}
+                  height={50}
+                  priority
                   style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: 7,
-                    background:
-                      "linear-gradient(135deg, var(--color-brand), var(--color-accent-2))",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 13,
+                    borderRadius: 10,
                     flexShrink: 0,
                   }}
-                  aria-hidden="true"
-                >
-                  ⚡
-                </div>
-                <span
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 800,
-                    fontSize: 17,
-                  }}
-                >
-                  Tool<span style={{ color: "var(--color-brand)" }}>Verse</span>
-                </span>
+                />
               </Link>
               <p
                 style={{
@@ -221,7 +207,7 @@ export function Footer() {
           {/* Bottom bar */}
           <div className="footer-bottom">
             <p style={{ margin: 0 }}>© {year} ToolVerse — MIT License</p>
-            <p style={{ margin: 0 }}>Made with ☕ by a Vietnamese dev</p>
+            <p style={{ margin: 0 }}>Built by Nkduy23</p>
           </div>
         </div>
       </footer>

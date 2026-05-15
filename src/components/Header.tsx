@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -253,43 +254,26 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            aria-label="ToolVerse - Về trang chủ"
+            aria-label="NKVerse - Về trang chủ"
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 10,
+              gap: 12,
               textDecoration: "none",
               flexShrink: 0,
             }}
           >
-            <div
+            <Image
+              src="/logo-nkverse.png"
+              alt="NKVerse Logo"
+              width={150}
+              height={50}
+              priority
               style={{
-                width: 34,
-                height: 34,
-                borderRadius: "var(--radius-md)",
-                background:
-                  "linear-gradient(135deg, var(--color-brand), var(--color-accent-2))",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 16,
+                borderRadius: 10,
                 flexShrink: 0,
               }}
-              aria-hidden="true"
-            >
-              ⚡
-            </div>
-            <span
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 800,
-                fontSize: 20,
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Tool<span style={{ color: "var(--color-brand)" }}>Verse</span>
-            </span>
+            />
           </Link>
 
           {/* Desktop nav */}
