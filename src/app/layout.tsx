@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://10-toolverse.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "NKVerse — Kho công cụ web miễn phí",
@@ -59,7 +59,8 @@ export const metadata: Metadata = {
     title: "NKVerse — Kho công cụ web miễn phí",
     description:
       "Bộ công cụ web miễn phí cho developer Việt. Không cần đăng ký.",
-    images: ["/og-image.png"],
+    // Thay đổi ở đây nữa nhé
+    images: ["https://10-toolverse.vercel.app/og-image.png"],
   },
 };
 
