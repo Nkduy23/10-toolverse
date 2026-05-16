@@ -22,47 +22,46 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "NKVerse — Kho công cụ web miễn phí cho developer Việt",
+// Sử dụng generateMetadata động để Next.js tối ưu hóa việc xuất thẻ meta tĩnh ra ngoài
+export async function generateMetadata(): Promise<Metadata> {
+  const domain = "https://10-toolverse.vercel.app";
 
-  description:
-    "Bộ công cụ web miễn phí: password generator, QR code, color palette, text formatter... Không cần đăng ký. Vào dùng, xong thoát.",
-
-  metadataBase: new URL("https://10-toolverse.vercel.app/"),
-
-  icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/apple-touch-icon.png",
-  },
-
-  openGraph: {
-    title: "NKVerse — Kho công cụ web miễn phí",
+  return {
+    title: "NKVerse — Kho công cụ web miễn phí cho developer Việt",
     description:
-      "Bộ công cụ web miễn phí cho developer Việt. Không cần đăng ký.",
-    url: "https://10-toolverse.vercel.app/",
-    siteName: "NKVerse",
-    locale: "vi_VN",
-    type: "website",
-    images: [
-      {
-        url: "https://10-toolverse.vercel.app/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "NKVerse — Kho công cụ web miễn phí",
-      },
-    ],
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "NKVerse — Kho công cụ web miễn phí",
-    description:
-      "Bộ công cụ web miễn phí cho developer Việt. Không cần đăng ký.",
-    // Thay đổi ở đây nữa nhé
-    images: ["https://10-toolverse.vercel.app/og-image.png"],
-  },
-};
+      "Bộ công cụ web miễn phí: password generator, QR code, color palette, text formatter... Không cần đăng ký. Vào dùng, xong thoát.",
+    metadataBase: new URL(domain),
+    icons: {
+      icon: "/favicon.png",
+      shortcut: "/favicon.png",
+      apple: "/apple-touch-icon.png",
+    },
+    openGraph: {
+      title: "NKVerse — Kho công cụ web miễn phí",
+      description:
+        "Bộ công cụ web miễn phí cho developer Việt. Không cần đăng ký.",
+      url: `${domain}/`,
+      siteName: "NKVerse",
+      locale: "vi_VN",
+      type: "website",
+      images: [
+        {
+          url: `${domain}/og-image.png`, // Đường dẫn tuyệt đối chuẩn chỉnh
+          width: 1200,
+          height: 630,
+          alt: "NKVerse — Kho công cụ web miễn phí",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "NKVerse — Kho công cụ web miễn phí",
+      description:
+        "Bộ công cụ web miễn phí cho developer Việt. Không cần đăng ký.",
+      images: [`${domain}/og-image.png`],
+    },
+  };
+}
 
 export default function RootLayout({
   children,
